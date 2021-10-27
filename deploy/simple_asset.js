@@ -64,27 +64,27 @@ async function deploySmartContract(name, symbol, network) {
     // Hard coded to compile and deploy the Asset.sol smart contract.
     const SmartContract = await ethers.getContractFactory('Assets');
     const imxAddress = getIMXAddress(network);
-    const smartContract = await SmartContract.deploy(name, symbol, imxAddress);
+    const smartContract = await SmartContract.deploy(imxAddress);
 
     console.log('Deployed Contract Address:', smartContract.address);
-    console.log('Public address is ')
     return smartContract.address;
 }
-
+//0x644a64d64a412a51dC9F22a6F07457afA491fB15
 async function whiteListContract() {
     const SmartContract = await ethers.getContractFactory('Assets');
-    const concAddr = await SmartContract.attach('0x473FAd8c61FcC53FDD8d02004E8DE6Ec54603e75');
-    //concAddr.whiteListAddress('0xCEDC601D1E9696DD34C0F132812198E250109183');
-//    console.log(await concAddr.isWhiteListed('0xCEDC601D1E9696DD34C0F132812198E250109183'));
-    console.log(await concAddr.preSaleActiveTime());
-    // console.log(await concAddr.setPreSaleTimeLimit(2));
+    const concAddr = await SmartContract.attach('0x2C503E38BA0FE9Ff925607c8680ac654C9C65C52');
+    // console.log(await concAddr.whiteListAddress('0xCEDC601D1E9696DD34C0F132812198E250109183'));
+ //   console.log(await concAddr.isWhiteListed('0xCEDC601D1E9696DD34C0F132812198E250109183'));
+ //   console.log(await concAddr.preSaleActiveTime());
+  //  console.log(await concAddr.setPreSaleTimeLimit(2));
     // console.log(await concAddr.preSaleActiveTime());
-    console.log(await concAddr.isPreSaleActive())
+ //   console.log(await concAddr.isPreSaleActive())
+    console.log(await concAddr.retrieveBalance());
     const tokenId = 121;
     const tokenURI = 'tokenURI';
     const blob = toHex(`{${tokenId}}:{${tokenURI}}`);
     console.log(blob);
-    await concAddr.mintFor('0xCEDC601D1E9696DD34C0F132812198E250109183',1, blob);
+
 
 }
 
@@ -120,7 +120,8 @@ function fromHex(str1) {
 
 const signer = ethers.getSigners();
 //getPublicKey(signer)
-// deploySmartContract('Dummy Contract','DC', hardhat.network.name)
+
+//deploySmartContract('Dummy Contract','DC', hardhat.network.name)
 whiteListContract()
 .then(() => process.exit(0))
 .catch((error) => {

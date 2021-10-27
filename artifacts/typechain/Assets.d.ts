@@ -33,15 +33,11 @@ interface AssetsInterface extends ethers.utils.Interface {
     "mintFor(address,uint256,bytes)": FunctionFragment;
     "minting(uint256)": FunctionFragment;
     "name()": FunctionFragment;
-    "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "postSaleActiveTime()": FunctionFragment;
-    "postSalePrice()": FunctionFragment;
     "postSaletokenLimit(address)": FunctionFragment;
     "preSaleActiveTime()": FunctionFragment;
-    "preSalePrice()": FunctionFragment;
     "preSaletokenLimit(address)": FunctionFragment;
-    "renounceOwnership()": FunctionFragment;
     "retrieveBalance()": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
@@ -55,8 +51,6 @@ interface AssetsInterface extends ethers.utils.Interface {
     "tokenURI(uint256)": FunctionFragment;
     "totalSupply()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
-    "transferOwnership(address)": FunctionFragment;
-    "valueReceived(address)": FunctionFragment;
     "whiteListAddress(address)": FunctionFragment;
   };
 
@@ -92,17 +86,12 @@ interface AssetsInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "postSaleActiveTime",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "postSalePrice",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -114,16 +103,8 @@ interface AssetsInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "preSalePrice",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "preSaletokenLimit",
     values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "renounceOwnership",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "retrieveBalance",
@@ -172,14 +153,6 @@ interface AssetsInterface extends ethers.utils.Interface {
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "transferOwnership",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "valueReceived",
-    values: [string]
-  ): string;
-  encodeFunctionData(
     functionFragment: "whiteListAddress",
     values: [string]
   ): string;
@@ -207,14 +180,9 @@ interface AssetsInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "mintFor", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "minting", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "postSaleActiveTime",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "postSalePrice",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -226,15 +194,7 @@ interface AssetsInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "preSalePrice",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "preSaletokenLimit",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -281,14 +241,6 @@ interface AssetsInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "transferOwnership",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "valueReceived",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "whiteListAddress",
     data: BytesLike
   ): Result;
@@ -296,14 +248,12 @@ interface AssetsInterface extends ethers.utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
-    "OwnershipTransferred(address,address)": EventFragment;
     "TokenMint(address,uint256,bytes)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TokenMint"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
@@ -322,10 +272,6 @@ export type ApprovalForAllEvent = TypedEvent<
     operator: string;
     approved: boolean;
   }
->;
-
-export type OwnershipTransferredEvent = TypedEvent<
-  [string, string] & { previousOwner: string; newOwner: string }
 >;
 
 export type TokenMintEvent = TypedEvent<
@@ -422,16 +368,12 @@ export class Assets extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<[string]>;
 
-    owner(overrides?: CallOverrides): Promise<[string]>;
-
     ownerOf(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
 
     postSaleActiveTime(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    postSalePrice(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     postSaletokenLimit(
       arg0: string,
@@ -440,16 +382,10 @@ export class Assets extends BaseContract {
 
     preSaleActiveTime(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    preSalePrice(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     preSaletokenLimit(
       arg0: string,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
-
-    renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
 
     retrieveBalance(
       overrides?: PayableOverrides & { from?: string | Promise<string> }
@@ -521,16 +457,6 @@ export class Assets extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    transferOwnership(
-      newOwner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    valueReceived(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
     whiteListAddress(
       _sender: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -575,13 +501,9 @@ export class Assets extends BaseContract {
 
   name(overrides?: CallOverrides): Promise<string>;
 
-  owner(overrides?: CallOverrides): Promise<string>;
-
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   postSaleActiveTime(overrides?: CallOverrides): Promise<BigNumber>;
-
-  postSalePrice(overrides?: CallOverrides): Promise<BigNumber>;
 
   postSaletokenLimit(
     arg0: string,
@@ -590,16 +512,10 @@ export class Assets extends BaseContract {
 
   preSaleActiveTime(overrides?: CallOverrides): Promise<BigNumber>;
 
-  preSalePrice(overrides?: CallOverrides): Promise<BigNumber>;
-
   preSaletokenLimit(
     arg0: string,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
-
-  renounceOwnership(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
 
   retrieveBalance(
     overrides?: PayableOverrides & { from?: string | Promise<string> }
@@ -668,13 +584,6 @@ export class Assets extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  transferOwnership(
-    newOwner: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  valueReceived(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
-
   whiteListAddress(
     _sender: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -719,13 +628,9 @@ export class Assets extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<string>;
 
-    owner(overrides?: CallOverrides): Promise<string>;
-
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     postSaleActiveTime(overrides?: CallOverrides): Promise<BigNumber>;
-
-    postSalePrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     postSaletokenLimit(
       arg0: string,
@@ -734,16 +639,12 @@ export class Assets extends BaseContract {
 
     preSaleActiveTime(overrides?: CallOverrides): Promise<BigNumber>;
 
-    preSalePrice(overrides?: CallOverrides): Promise<BigNumber>;
-
     preSaletokenLimit(
       arg0: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    renounceOwnership(overrides?: CallOverrides): Promise<void>;
-
-    retrieveBalance(overrides?: CallOverrides): Promise<boolean>;
+    retrieveBalance(overrides?: CallOverrides): Promise<void>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -769,7 +670,7 @@ export class Assets extends BaseContract {
     setPreSaleTimeLimit(
       _day: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<void>;
 
     setTokenURI(
       id: BigNumberish,
@@ -808,17 +709,7 @@ export class Assets extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    transferOwnership(
-      newOwner: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    valueReceived(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    whiteListAddress(
-      _sender: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
+    whiteListAddress(_sender: string, overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {
@@ -856,22 +747,6 @@ export class Assets extends BaseContract {
     ): TypedEventFilter<
       [string, string, boolean],
       { owner: string; operator: string; approved: boolean }
-    >;
-
-    "OwnershipTransferred(address,address)"(
-      previousOwner?: string | null,
-      newOwner?: string | null
-    ): TypedEventFilter<
-      [string, string],
-      { previousOwner: string; newOwner: string }
-    >;
-
-    OwnershipTransferred(
-      previousOwner?: string | null,
-      newOwner?: string | null
-    ): TypedEventFilter<
-      [string, string],
-      { previousOwner: string; newOwner: string }
     >;
 
     "TokenMint(address,uint256,bytes)"(
@@ -950,16 +825,12 @@ export class Assets extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
-    owner(overrides?: CallOverrides): Promise<BigNumber>;
-
     ownerOf(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     postSaleActiveTime(overrides?: CallOverrides): Promise<BigNumber>;
-
-    postSalePrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     postSaletokenLimit(
       arg0: string,
@@ -968,15 +839,9 @@ export class Assets extends BaseContract {
 
     preSaleActiveTime(overrides?: CallOverrides): Promise<BigNumber>;
 
-    preSalePrice(overrides?: CallOverrides): Promise<BigNumber>;
-
     preSaletokenLimit(
       arg0: string,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     retrieveBalance(
@@ -1049,13 +914,6 @@ export class Assets extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    transferOwnership(
-      newOwner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    valueReceived(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
-
     whiteListAddress(
       _sender: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1110,8 +968,6 @@ export class Assets extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     ownerOf(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -1121,8 +977,6 @@ export class Assets extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    postSalePrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     postSaletokenLimit(
       arg0: string,
       overrides?: CallOverrides
@@ -1130,15 +984,9 @@ export class Assets extends BaseContract {
 
     preSaleActiveTime(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    preSalePrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     preSaletokenLimit(
       arg0: string,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     retrieveBalance(
@@ -1209,16 +1057,6 @@ export class Assets extends BaseContract {
       to: string,
       tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    transferOwnership(
-      newOwner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    valueReceived(
-      arg0: string,
-      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     whiteListAddress(
